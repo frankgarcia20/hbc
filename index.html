@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi Princesa Celeste</title>
+    <style>
+        /* Fondo pastel con degradado */
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #222 0%, #ffdee9 100%);
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Corazones flotando */
+        .floating-hearts {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: pink;
+            left: 50%;
+            top: 100%;
+            opacity: 0.8;
+            animation: floatHeart 8s linear infinite;
+            border-radius: 50% 50% 0 0;
+            transform: rotate(-45deg);
+        }
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: pink;
+            border-radius: 50%;
+        }
+        .heart:before { left: -18px; top: 0; }
+        .heart:after { left: 0; top: -18px; }
+
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-110vh) scale(1.3); opacity: 0; }
+        }
+
+        /* Flores animadas */
+        .flower {
+            position: absolute;
+            width: 40px; height: 40px;
+            z-index: 1;
+            animation: floatFlower 12s linear infinite;
+        }
+        @keyframes floatFlower {
+            0% { transform: translateY(0) rotate(0deg);}
+            100% { transform: translateY(-130vh) rotate(360deg);}
+        }
+
+        /* Contenedor general */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.10);
+            border-radius: 30px;
+            padding: 30px 18px 18px 18px;
+            box-shadow: 0 4px 32px #ffb2ff55;
+            margin-top: 28px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin: 0 0 15px 0;
+            color: #ffb6b9;
+            text-shadow: 2px 2px 8px #fff9;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #f9f871;
+        }
+
+        .divider {
+            border: 0;
+            border-top: 2px dashed #fff6;
+            margin: 20px 0;
+        }
+
+        /* Carrusel de frases */
+        .carousel {
+            margin: 24px 0;
+            min-height: 70px;
+            font-size: 1.2em;
+            color: #f9f6fa;
+            transition: opacity 0.5s;
+        }
+
+        /* Botones pastel */
+        .buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 25px 0 15px 0;
+        }
+        .love-btn {
+            background: linear-gradient(90deg, #fcb7d4, #e0c3fc);
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            padding: 12px 20px;
+            font-size: 1em;
+            box-shadow: 0 2px 10px #fff4;
+            cursor: pointer;
+            transition: background 0.4s, transform 0.2s;
+        }
+        .love-btn:hover {
+            background: linear-gradient(90deg, #ffdee9, #b5fffc);
+            color: #a55;
+            transform: scale(1.08);
+        }
+
+        /* Popup mensaje */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.82);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: #fff;
+            color: #ee4c7c;
+            border-radius: 18px;
+            max-width: 330px;
+            padding: 26px 22px;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow: 0 6px 32px #fdc7fa99;
+            animation: popupAppear 0.7s;
+        }
+        @keyframes popupAppear {
+            0% { transform: scale(0.7); opacity: 0;}
+            100% { transform: scale(1); opacity: 1;}
+        }
+
+        .close-btn {
+            margin-top: 18px;
+            background: #ffe0ec;
+            color: #ee4c7c;
+            border: none;
+            border-radius: 7px;
+            padding: 6px 18px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        /* Contador de días juntos */
+        .counter {
+            color: #fff2b2;
+            font-size: 1.18em;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 6px #000b;
+        }
+
+        /* Responsive */
+        @media (max-width: 540px) {
+            .container {
+                padding: 18px 5px 10px 5px;
+            }
+            h1 { font-size: 1.3em;}
+            .carousel { font-size: 1em;}
+        }
+    </style>
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Primer Mes, Celeste!</title>
+    <style>
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #222 0%, #ffdee9 100%);
+            margin: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .floating-hearts, #flowers-bg, #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            width: 35px; height: 35px;
+            background: pink;
+            left: 50%;
+            top: 100%;
+            opacity: 0.8;
+            animation: floatHeart 8s linear infinite;
+            border-radius: 50% 50% 0 0;
+            transform: rotate(-45deg);
+        }
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 35px; height: 35px;
+            background: pink;
+            border-radius: 50%;
+        }
+        .heart:before { left: -18px; top: 0; }
+        .heart:after { left: 0; top: -18px; }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-110vh) scale(1.3); opacity: 0; }
+        }
+
+        .flower {
+            position: absolute;
+            width: 40px; height: 40px;
+            z-index: 1;
+            animation: floatFlower 12s linear infinite;
+        }
+        @keyframes floatFlower {
+            0% { transform: translateY(0) rotate(0deg);}
+            100% { transform: translateY(-130vh) rotate(360deg);}
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 510px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.13);
+            border-radius: 30px;
+            padding: 28px 12px 18px 12px;
+            box-shadow: 0 4px 32px #ffb2ff55;
+            margin-top: 26px;
+            margin-bottom: 28px;
+        }
+
+        h1 {
+            font-size: 2.1em;
+            margin: 0 0 10px 0;
+            color: #ffb6b9;
+            text-shadow: 2px 2px 8px #fff9;
+        }
+
+        .first-month-msg {
+            background: linear-gradient(90deg, #fcdff4, #ffe0ec, #fff2b2);
+            color: #e14d6b;
+            font-weight: bold;
+            margin: 12px 0 16px 0;
+            padding: 14px 12px;
+            border-radius: 16px;
+            font-size: 1.23em;
+            box-shadow: 0 2px 18px #fff7;
+            text-align: center;
+        }
+
+        .divider {
+            border: 0;
+            border-top: 2px dashed #fff6;
+            margin: 14px 0;
+        }
+
+        .counter {
+            color: #fff2b2;
+            font-size: 1.17em;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 6px #000b;
+        }
+
+        .carousel {
+            margin: 22px 0 10px 0;
+            min-height: 65px;
+            font-size: 1.13em;
+            color: #f9f6fa;
+            transition: opacity 0.5s;
+        }
+
+        .buttons-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            justify-content: center;
+            margin: 18px 0 10px 0;
+        }
+        .love-btn, .confetti-btn, .cake-btn {
+            background: linear-gradient(90deg, #fcb7d4, #e0c3fc);
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            padding: 11px 19px;
+            font-size: 1em;
+            box-shadow: 0 2px 10px #fff4;
+            cursor: pointer;
+            transition: background 0.4s, transform 0.2s;
+        }
+        .love-btn:hover, .confetti-btn:hover, .cake-btn:hover {
+            background: linear-gradient(90deg, #ffdee9, #b5fffc);
+            color: #a55;
+            transform: scale(1.08);
+        }
+        .confetti-btn { color: #ffb700; font-weight:bold;}
+        .cake-btn { color: #ff70a6; font-weight:bold;}
+
+        .cake-popup {
+            display:none;
+            position:fixed;
+            top:0; left:0; width:100vw; height:100vh;
+            background:rgba(0,0,0,0.87);
+            z-index:2000;
+            justify-content:center;
+            align-items:center;
+        }
+        .cake-svg-box {
+            background:#fff;
+            border-radius:22px;
+            padding:20px 15px 18px 15px;
+            box-shadow:0 4px 32px #ffbdfd88;
+            text-align:center;
+            animation: popupAppear 0.7s;
+        }
+        .cake-svg-box span{
+            display:block;
+            margin:12px 0 6px 0;
+            color:#e14d6b;
+            font-weight:bold;
+            font-size:1.22em;
+        }
+        .close-btn {
+            margin-top: 10px;
+            background: #ffe0ec;
+            color: #ee4c7c;
+            border: none;
+            border-radius: 7px;
+            padding: 6px 18px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        @keyframes popupAppear {
+            0% { transform: scale(0.7); opacity: 0;}
+            100% { transform: scale(1); opacity: 1;}
+        }
+
+        @media (max-width: 540px) {
+            .container { padding: 13px 3px 7px 3px;}
+            h1 { font-size: 1.13em;}
+            .carousel { font-size: 0.97em;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Corazones flotando -->
+    <div class="floating-hearts" id="hearts-bg"></div>
+    <!-- Flores flotando -->
+    <div id="flowers-bg"></div>
+    <!-- Lienzo para confeti -->
+    <canvas id="confetti-canvas"></canvas>
+    
+    <div class="container">
+        <h1>Para mi princesa Celeste 💖</h1>
+        <div class="first-month-msg">
+            🎉 ¡Hoy cumplimos nuestro <b>primer mes</b> de esta hermosa historia! <br>
+            Gracias por cada momento, cada canción, cada sonrisa.<br>
+            <span style="font-size:1.25em;">¡Te amo, mi vida! 💞</span>
+        </div>
+        <hr class="divider">
+        <div class="counter" id="days-counter"></div>
+        <div class="carousel" id="carousel"></div>
+        <hr class="divider">
+        <div class="buttons-row">
+            <button class="love-btn" onclick="showPopup(0)">Tu voz hermosa 🎤</button>
+            <button class="love-btn" onclick="showPopup(1)">Nuestra música 🎶</button>
+            <button class="love-btn" onclick="showPopup(2)">Nuestro mate ☕</button>
+            <button class="love-btn" onclick="showPopup(3)">Nuestro futuro 👶</button>
+            <button class="love-btn" onclick="showPopup(4)">Tus apodos 💌</button>
+            <button class="love-btn" onclick="showPopup(5)">Promesas 💍</button>
+            <button class="love-btn" onclick="showPopup(6)">Mi motivo 💗</button>
+        </div>
+        <div class="buttons-row">
+            <button class="confetti-btn" onclick="launchConfetti()">¡Lanzar confeti! 🎊</button>
+            <button class="cake-btn" onclick="showCake()">Ver pastel de 1 mes 🎂</button>
+        </div>
+        <hr class="divider">
+        <div style="text-align:left; max-width: 440px; margin: auto;">
+            <p>Celeste, cada día contigo es un nuevo universo por descubrir. Me enamora tu risa, tu dulzura, tu paciencia y la luz que le das a mi vida, incluso desde lejos.</p>
+            <p>Me haces sentir que juntos no hay imposibles. A veces cierro los ojos y puedo imaginar tu voz cantando, suave y única, llenando el silencio de mi habitación de alegría. Sueño con el día en que, por fin, pueda abrazarte mientras compartimos un mate, como me prometiste.</p>
+            <p>Gracias por inspirarme a ser mejor, por confiar en mí y por permitirte soñar a mi lado. Amo cada mensaje, cada llamada, cada momento que compartimos. Quiero que sepas que eres mi princesa, mi amor, mi bebé, mi vida... y que deseo que nuestro amor siga creciendo tan fuerte como ahora.</p>
+            <p>¡Feliz cumpleaños (aunque ya pasó el 13 de mayo)! Espero poder celebrar muchos más a tu lado y, quién sabe, quizá algún día tener una niña juntos y formar la familia que tanto soñamos.</p>
+        </div>
+    </div>
+    
+    <!-- POPUP Mensaje interactivo -->
+    <div class="popup" id="popup" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.82); z-index:1000; justify-content:center; align-items:center;">
+        <div class="popup-content" id="popup-content">
+            <!-- Mensaje personalizado aparece aquí -->
+        </div>
+        <button class="close-btn" onclick="closePopup()">Cerrar</button>
+    </div>
+
+    <!-- POPUP de pastel -->
+    <div class="cake-popup" id="cake-popup">
+        <div class="cake-svg-box">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+                <!-- Base del pastel -->
+                <ellipse cx="70" cy="100" rx="55" ry="23" fill="#ffe0ec" />
+                <rect x="15" y="60" width="110" height="40" rx="20" fill="#ffb6b9"/>
+                <ellipse cx="70" cy="60" rx="55" ry="23" fill="#fff2b2" />
+                <!-- Decoraciones -->
+                <ellipse cx="40" cy="95" rx="8" ry="4" fill="#fcb7d4"/>
+                <ellipse cx="100" cy="95" rx="8" ry="4" fill="#e0c3fc"/>
+                <!-- Vela -->
+                <rect x="66" y="30" width="8" height="28" rx="4" fill="#e14d6b" />
+                <ellipse cx="70" cy="28" rx="7" ry="7" fill="#fff2b2"/>
+                <ellipse cx="70" cy="24" rx="3" ry="4" fill="#fff9c4">
+                    <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
+                </ellipse>
+                <!-- Número 1 -->
+                <text x="65" y="90" font-size="38" font-family="Arial" fill="#fff" font-weight="bold">1</text>
+                <text x="90" y="90" font-size="18" font-family="Arial" fill="#fff6">MES</text>
+            </svg>
+            <span>¡Un mes juntos!<br>Te amo, mi princesa 💖</span>
+            <button class="close-btn" onclick="closeCake()">Cerrar pastel</button>
+        </div>
+    </div>
+
+    <script>
+        // Corazones y flores animadas
+        function createHearts() {
+            const bg = document.getElementById('hearts-bg');
+            for(let i=0; i<18; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random()*100 + 'vw';
+                heart.style.animationDelay = (Math.random()*7)+'s';
+                heart.style.background = ['#ffb6b9','#fcdff4','#fcb7d4','#ffb6b9','#ffe0ec'][i%5];
+                bg.appendChild(heart);
+            }
+        }
+        function createFlowers() {
+            const flowerSVG = `
+            <svg width="40" height="40" viewBox="0 0 40 40">
+                <circle cx="20" cy="20" r="7" fill="#ffe0ec"/>
+                <ellipse cx="10" cy="10" rx="8" ry="3.5" fill="#fcb7d4" />
+                <ellipse cx="30" cy="10" rx="8" ry="3.5" fill="#e0c3fc" />
+                <ellipse cx="10" cy="30" rx="8" ry="3.5" fill="#b5fffc" />
+                <ellipse cx="30" cy="30" rx="8" ry="3.5" fill="#fff2b2" />
+            </svg>`;
+            const bg = document.getElementById('flowers-bg');
+            for(let i=0; i<10; i++) {
+                const div = document.createElement('div');
+                div.className = 'flower';
+                div.style.left = (Math.random()*90+2)+'vw';
+                div.style.top = (Math.random()*95+2)+'vh';
+                div.style.animationDelay = (Math.random()*11)+'s';
+                div.innerHTML = flowerSVG;
+                bg.appendChild(div);
+            }
+        }
+        createHearts();
+        createFlowers();
+
+        // Carrusel de frases
+        const frases = [
+            "Te amo más de lo que puedo escribir en mil canciones.",
+            "Tu voz es mi refugio y mi melodía favorita.",
+            "Eres la persona con la que quiero compartir cada mate, cada risa y cada sueño.",
+            "No importa la distancia, siempre te llevo conmigo.",
+            "Sueño con nuestra familia y una niña que tenga tu sonrisa.",
+            "Eres mi princesa, mi amor, mi bebé, mi vida…",
+            "Gracias por enseñarme la magia de amarte cada día.",
+            "Nuestro primer mes juntos, ¡y ya siento que te amo de mil formas!",
+            "Prometo cuidar tu corazón y hacerte feliz.",
+            "Quiero escuchar cada nota que cantes, siempre.",
+            "Juntos, la música suena más hermosa.",
+            "¡Gracias por existir, Celeste!",
+        ];
+        let fraseActual = 0;
+        function mostrarFrase() {
+            const carrusel = document.getElementById('carousel');
+            carrusel.style.opacity = 0;
+            setTimeout(() => {
+                carrusel.innerText = frases[fraseActual];
+                carrusel.style.opacity = 1;
+            }, 400);
+            fraseActual = (fraseActual + 1) % frases.length;
+        }
+        setInterval(mostrarFrase, 4200);
+        mostrarFrase();
+
+        // Botones interactivos (popups)
+        const mensajesPopup = [
+            "Cuando cantas, el mundo se detiene y solo quiero escucharte a ti.",
+            "Nuestra música une mi corazón con el tuyo, aunque estemos lejos.",
+            "Espero con ansias ese mate especial, será nuestro primer ritual juntos.",
+            "Sueño con una niña que herede tu dulzura y tu sonrisa.",
+            "Tus apodos: mi princesa, mi amor, mi bebé, mi vida... y cada uno me hace amarte más.",
+            "Prometo siempre apoyarte, reír contigo y nunca dejar de soñar juntos.",
+            "Eres mi razón de sonreír cada día, Celeste. ¡Te amo!",
+        ];
+        function showPopup(index) {
+            document.getElementById('popup-content').innerText = mensajesPopup[index];
+            document.getElementById('popup').style.display = 'flex';
+        }
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        // Contador de días juntos
+        function calcularDiasJuntos() {
+            const inicio = new Date(2025, 3, 17); // 17 de abril de 2025
+            const hoy = new Date();
+            const diff = hoy - inicio;
+            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('days-counter').innerText =
+                `Llevamos juntos ${dias} días, y cada uno es mejor que el anterior.`;
+        }
+        calcularDiasJuntos();
+
+        // Confeti animado
+        function launchConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let confetti = [];
+            for(let i=0; i<120; i++) {
+                confetti.push({
+                    x: Math.random()*canvas.width,
+                    y: Math.random()*-canvas.height,
+                    r: Math.random()*8+5,
+                    d: Math.random()*120+20,
+                    color: `hsl(${Math.random()*360},90%,80%)`,
+                    tilt: Math.random()*10-5,
+                    tiltAngle: 0
+                });
+            }
+            let angle = 0;
+            let frame = 0;
+            function draw() {
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                for(let i=0; i<confetti.length; i++) {
+                    let c = confetti[i];
+                    ctx.beginPath();
+                    ctx.ellipse(c.x, c.y, c.r, c.r/2, c.tilt, 0, 2*Math.PI);
+                    ctx.fillStyle = c.color;
+                    ctx.fill();
+                }
+                update();
+            }
+            function update() {
+                angle += 0.01;
+                for(let i=0; i<confetti.length; i++) {
+                    let c = confetti[i];
+                    c.y += Math.cos(angle+c.d)+2+c.r/3;
+                    c.x += Math.sin(angle)*2;
+                    c.tiltAngle += 0.05;
+                    c.tilt = Math.sin(c.tiltAngle)*10;
+                    if(c.y > canvas.height) {
+                        c.x = Math.random()*canvas.width;
+                        c.y = Math.random()*-20;
+                    }
+                }
+            }
+            function animate() {
+                draw();
+                frame++;
+                if(frame<170) {
+                    requestAnimationFrame(animate);
+                } else {
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                }
+            }
+            animate();
+        }
+
+        // Pastel de 1 mes
+        function showCake() {
+            document.getElementById('cake-popup').style.display = 'flex';
+        }
+        function closeCake() {
+            document.getElementById('cake-popup').style.display = 'none';
+        }
+
+        // Permitir cerrar popup con Escape
+        window.addEventListener('keydown', function(e){
+            if(e.key === "Escape") {
+                closePopup();
+                closeCake();
+            }
+        });
+    </script>
+</body>
+</html>
+
+</html>
